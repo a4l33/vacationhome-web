@@ -1,0 +1,121 @@
+.add-page {
+  background: #fff;
+  min-height: 100vh;
+}
+
+.add-navbar {
+  padding: 16px 32px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.add-back-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #111;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.add-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+}
+
+.add-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.add-subtitle {
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 40px;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.add-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+
+.add-field input,
+.add-field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 15px;
+  color: #111;
+  outline: none;
+  background: #fafafa;
+  transition: border-color .15s;
+}
+
+.add-field input:focus,
+.add-field textarea:focus {
+  border-color: #F58634;
+}
+
+.add-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.add-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.add-divider {
+  border: none;
+  border-top: 1px solid #f0f0f0;
+  margin: 8px 0;
+}
+
+.add-submit-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background .2s, box-shadow .2s;
+}
+
+.add-submit-btn.active {
+  background: #F58634;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(245, 134, 52, 0.4);
+  cursor: pointer;
+}
+
+.add-submit-btn.disabled {
+  background: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
