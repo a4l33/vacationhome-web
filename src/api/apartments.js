@@ -15,11 +15,19 @@ export async function getApartmentById(id) {
 }
 
 export async function createApartment(data) {
+  const token = localStorage.getItem('token')
   const response = await fetch(`${BASE_URL}/properties/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}`
+    },
     body: JSON.stringify(data)
   })
-  if (!response.ok) throw new Error('Errore nella creazione')
+  if (!response.ok) {
+    const errorData = await response.json()
+    console.log('Errore Django:', errorData)
+    throw new Error('Errore nella creazione')
+  }
   return response.json()
 }

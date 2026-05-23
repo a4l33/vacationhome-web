@@ -112,11 +112,11 @@ function Detail() {
               <div className="detail-booking-dates-row">
                 <div className="detail-booking-field">
                   <div className="detail-booking-field-label">Check-in</div>
-                  <input type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} />
+                  <input type="date" value={checkIn} min={new Date().toISOString().split('T')[0]} onChange={e => setCheckIn(e.target.value)} />
                 </div>
                 <div className="detail-booking-field">
                   <div className="detail-booking-field-label">Check-out</div>
-                  <input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} />
+                  <input type="date" value={checkOut} min={checkIn || new Date().toISOString().split('T')[0]} onChange={e => setCheckOut(e.target.value)} />
                 </div>
               </div>
               <div className="detail-booking-field">

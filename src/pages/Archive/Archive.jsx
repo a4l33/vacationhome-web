@@ -52,6 +52,9 @@ function Archive() {
           >
             + Aggiungi
           </button>
+          <button className="archive-add-btn" onClick={() => navigate('/bookings')}>
+            Prenotazioni
+          </button>
         </div>
 
         {loading && <p className="archive-message">Caricamento...</p>}
