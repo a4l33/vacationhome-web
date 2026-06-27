@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../../api/config'
+import logo from '../../assets/logo.svg'
+import './Login.css'
 
 function Login() {
   const navigate = useNavigate()
+
+  // ─── State ───────────────────────────────────────────────
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
 
+  // ─── Handlers ───────────────────────────────────────────
   const handleLogin = () => {
     fetch(`${BASE_URL}/users/login/`, {
       method: 'POST',
@@ -26,32 +31,40 @@ function Login() {
       .catch(() => setError('Errore di connessione'))
   }
 
-  return (
-    <div style={{ maxWidth: '400px', margin: '100px auto', padding: '24px' }}>
-      <h1>VacationHome</h1>
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleLogin()
+  }
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }}
-        />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button
-          onClick={handleLogin}
-          style={{ padding: '12px', background: '#F58634', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
-        >
-          Accedi
-        </button>
+  // ─── Render ──────────────────────────────────────────────
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <img src={logo} alt="ParaDay" className="login-logo" />
+        <h1 className="login-title">ParaDay</h1>
+        <p className="login-subtitle">Accedi alla tua dashboard</p>
+
+        <div className="login-form">
+          <input
+            className="login-input"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <input
+            className="login-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          {error && <p className="login-error">{error}</p>}
+          <button className="login-btn" onClick={handleLogin}>
+            Accedi
+          </button>
+        </div>
       </div>
     </div>
   )

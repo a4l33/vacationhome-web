@@ -1,0 +1,87 @@
+/* ─── Pagina ────────────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--bg) 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ─── Card ──────────────────────────────────────────────── */
+.login-card {
+  background: var(--bg);
+  border-radius: 24px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(245,134,52,0.1);
+}
+
+.login-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin: 0 0 4px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+/* ─── Form ──────────────────────────────────────────────── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-input {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: var(--bg-secondary);
+}
+
+.login-input:focus {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
+.login-error {
+  color: #e53935;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ─── Bottone ───────────────────────────────────────────── */
+.login-btn {
+  padding: 14px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,9 @@
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete-suggestion-secondary {
+  color: #888;
+  font-size: 12px;
+  margin-left: 6px;
+}

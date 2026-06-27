@@ -2,58 +2,56 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ApartmentCard from '../../components/ApartmentCard/ApartmentCard'
 import { getApartments } from '../../api/apartments'
-import heroBg from '../../assets/header.jpg'
-
+import Navbar from '../../components/Navbar/Navbar'
+import SearchBar from '../../components/SearchBar/SearchBar'
 import './Archive.css'
 
 function Archive() {
   const navigate = useNavigate()
+
+  //  State 
   const [apartments, setApartments] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null) 
+  const [error, setError] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
+  const [searchQuery, setSearchQuery] = useState('')
   const pageSize = 10
 
-  // DATI DAL BACKEND: -----------
+  //  Fetch dati 
   useEffect(() => {
-    getApartments(currentPage) 
+    getApartments(currentPage, '', searchQuery)
       .then(data => {
-        setApartments(data.results) // il .results si usa come nome fisso standard di Django per leggere dati paginati 
+        setApartments(data.results)
         setTotalCount(data.count)
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false))
-  }, [currentPage])
+  }, [currentPage, searchQuery])
 
+  //  Handlers 
   const totalPages = Math.ceil(totalCount / pageSize)
 
-
+  //  Render 
   return (
     <div className="archive-page">
-
-      <div
-        className="archive-hero"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        <div className="archive-hero-overlay" />
-        <div className="archive-hero-text">
-          <h1>Benvenuto a<br />VacationHome</h1>
-          <p>Scegli il tuo appartamento</p>
-        </div>
-      </div>
+      <Navbar />
 
       <div className="archive-content">
+
+        <SearchBar
+          value={searchQuery}
+          placeholder="Cerca per nome..."
+          onChange={e => {
+            setSearchQuery(e.target.value)
+            setCurrentPage(1)
+          }}
+        />
+
         <div className="archive-header">
-          <h2>Appartamenti disponibili</h2>
-          <button
-            className="archive-add-btn"
-            onClick={() => navigate('/add')}
-          >
+          <h2>I tuoi appartamenti</h2>
+          <button className="archive-add-btn" onClick={() => navigate('/add')}>
             + Aggiungi
-          </button>
-          <button className="archive-add-btn" onClick={() => navigate('/bookings')}>
-            Prenotazioni
           </button>
         </div>
 
@@ -71,14 +69,14 @@ function Archive() {
         </div>
 
         {totalPages > 1 && (
-      <div className="archive-pagination">
-        <button onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1} className="pagination-btn">← Precedente</button>
-        <span className="pagination-info">{currentPage} / {totalPages}</span>
-        <button onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages} className="pagination-btn">Successiva →</button>
-      </div>
-    )}
-      </div>
+          <div className="archive-pagination">
+            <button onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1} className="pagination-btn">← Precedente</button>
+            <span className="pagination-info">{currentPage} / {totalPages}</span>
+            <button onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages} className="pagination-btn">Successiva →</button>
+          </div>
+        )}
 
+      </div>
     </div>
   )
 }

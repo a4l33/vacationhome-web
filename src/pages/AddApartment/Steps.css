@@ -1,0 +1,190 @@
+/* ─── Form ──────────────────────────────────────────────── */
+.add-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.add-section {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.add-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ─── Campi ─────────────────────────────────────────────── */
+.add-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.add-field:last-child {
+  margin-bottom: 0;
+}
+
+.add-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.add-field input,
+.add-field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  background: var(--bg);
+  transition: border-color .15s;
+  box-sizing: border-box;
+}
+
+.add-field input:focus,
+.add-field textarea:focus {
+  border-color: var(--accent);
+}
+
+.add-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.add-field-readonly input {
+  background: #f5f5f5;
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.add-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ─── Suggerimenti ──────────────────────────────────────── */
+.city-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-box);
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 8px 0;
+  z-index: 100;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.city-suggestions li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.city-suggestions li:last-child {
+  border-bottom: none;
+}
+
+.city-suggestions li:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.city-suggestions li::before {
+  content: '📍';
+  font-size: 12px;
+}
+
+/* ─── Bottoni ───────────────────────────────────────────── */
+.add-divider {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 8px 0 24px;
+}
+
+.add-submit-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  transition: background .2s, box-shadow .2s;
+}
+
+.add-submit-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 8px 24px rgba(245, 134, 52, 0.3);
+  cursor: pointer;
+}
+
+.add-submit-btn.active:hover {
+  opacity: 0.9;
+}
+
+.add-submit-btn.disabled {
+  background: var(--border-light);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ─── Numeri senza freccette ────────────────────────────── */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ─── Bottoni step ──────────────────────────────────────── */
+.step-submit-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ─── Stanza aggiunta ───────────────────────────────────── */
+.room-meta {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.room-images {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.room-image-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}

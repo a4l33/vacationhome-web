@@ -1,8 +1,9 @@
+/* ─── Card contenitore ──────────────────────────────────── */
 .card {
-  background: #fff;
-  border-radius: 20px;
+  background: var(--bg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-card);
   cursor: pointer;
   transition: transform .12s ease;
 }
@@ -11,10 +12,12 @@
   transform: scale(0.985);
 }
 
+/* ─── Immagine ──────────────────────────────────────────── */
 .card-image {
   height: 200px;
   background-size: cover;
   background-position: center;
+  background-color: var(--bg-warm);
   position: relative;
 }
 
@@ -26,14 +29,30 @@
   align-items: center;
   gap: 4px;
   padding: 6px 10px;
-  border-radius: 100px;
+  border-radius: var(--radius-full);
   background: rgba(255,255,255,0.88);
   backdrop-filter: blur(10px);
   font-size: 13px;
   font-weight: 600;
-  color: #111;
+  color: var(--text);
 }
 
+.card-delete {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Contenuto ─────────────────────────────────────────── */
 .card-body {
   padding: 16px 18px 18px;
 }
@@ -42,7 +61,7 @@
   font-size: 19px;
   font-weight: 700;
   margin-bottom: 6px;
-  color: #111;
+  color: var(--text);
   letter-spacing: -0.3px;
 }
 
@@ -52,6 +71,7 @@
   margin-bottom: 12px;
 }
 
+/* ─── Footer ────────────────────────────────────────────── */
 .card-footer {
   display: flex;
   align-items: center;
@@ -60,18 +80,18 @@
 
 .card-price {
   font-size: 15px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .card-price strong {
-  color: #111;
+  color: var(--text);
 }
 
 .card-badge {
   font-size: 12px;
   font-weight: 600;
-  color: #F58634;
+  color: var(--accent);
   padding: 5px 10px;
-  border-radius: 100px;
-  background: rgba(245, 134, 52, 0.1);
+  border-radius: var(--radius-full);
+  background: var(--accent-light);
 }

@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getBookings } from '../../api/bookings'
+import { getBookings, confirmBooking, cancelBooking } from '../../api/bookings'
+import { BASE_URL } from '../../api/config'
+import Navbar from '../../components/Navbar/Navbar'
+import SearchBar from '../../components/SearchBar/SearchBar'
+import iconUsers from '../../assets/icons/users.svg'
+import iconCalendar from '../../assets/icons/calendar.svg'
+import iconUser from '../../assets/icons/user.svg'
+import './Bookings.css'
 
 function Bookings() {
-  const navigate = useNavigate()
+
+  // ─── State ───────────────────────────────────────────────
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
+  // ─── Fetch dati ──────────────────────────────────────────
   useEffect(() => {
     getBookings()
       .then(data => setBookings(data))
@@ -15,64 +24,92 @@ function Bookings() {
       .finally(() => setLoading(false))
   }, [])
 
+  // ─── Handlers ───────────────────────────────────────────
+  const handleConfirm = (id) => {
+    confirmBooking(id)
+      .then(data => setBookings(prev => prev.map(b => b.id === id ? data : b)))
+      .catch(err => alert(`Errore: ${err.message}`))
+  }
+
+  const handleCancel = (id) => {
+    cancelBooking(id)
+      .then(data => setBookings(prev => prev.map(b => b.id === id ? data : b)))
+      .catch(err => alert(`Errore: ${err.message}`))
+  }
+
+  const statusLabel = {
+    pending: 'In attesa',
+    confirmed: 'Confermata',
+    cancelled: 'Rifiutata'
+  }
+
+  // ─── Render ──────────────────────────────────────────────
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '32px 24px' }}>
-      <button
-        onClick={() => navigate('/')}
-        style={{ background: 'none', border: '1px solid #ddd', borderRadius: '100px', padding: '8px 16px', cursor: 'pointer', marginBottom: '24px' }}
-      >
-        ← Torna alla lista
-      </button>
+    <>
+      <Navbar />
+      <div className="bookings-page">
 
-      <h1 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>Prenotazioni</h1>
-      <p style={{ color: '#888', marginBottom: '32px' }}>Tutte le prenotazioni ricevute</p>
+        <SearchBar
+          value={searchQuery}
+          placeholder="Cerca prenotazioni..."
+          onChange={e => setSearchQuery(e.target.value)}
+        />
 
-      {loading && <p>Caricamento...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        <h1 className="bookings-title">Prenotazioni</h1>
+        <p className="bookings-subtitle">Tutte le prenotazioni ricevute</p>
 
-      {bookings.map(booking => (
-        <div
-          key={booking.id}
-          style={{
-            border: '1px solid #eee',
-            borderRadius: '16px',
-            padding: '20px 24px',
-            marginBottom: '16px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <p style={{ fontWeight: '600', marginBottom: '4px' }}>{booking.room_name || booking.room}</p>
-              <p style={{ color: '#888', fontSize: '14px' }}>
+        {loading && <p className="bookings-message">Caricamento...</p>}
+        {error && <p className="bookings-message">{error}</p>}
+
+        {bookings.map(booking => (
+          <div key={booking.id} className="booking-card">
+
+            <div className="booking-image">
+              {booking.room_details?.images?.[0]?.image ? (
+                <img src={`${BASE_URL}${booking.room_details.images[0].image}`} alt="" />
+              ) : (
+                <div className="booking-image-placeholder" />
+              )}
+            </div>
+
+            <div className="booking-card-body">
+              <p className="booking-room">{booking.room_details?.name}</p>
+              <p className="booking-meta">
+                <img src={iconUser} alt="" />
+                {booking.guest_details?.username}
+              </p>
+              <p className="booking-meta">
+                <img src={iconCalendar} alt="" />
                 {booking.check_in} → {booking.check_out}
               </p>
-              <p style={{ color: '#888', fontSize: '14px' }}>
+              <p className="booking-meta">
+                <img src={iconUsers} alt="" />
                 {booking.num_guests} ospiti
               </p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ fontWeight: '700', fontSize: '18px' }}>€{booking.total_price}</p>
-              <p style={{ 
-                fontSize: '12px', 
-                padding: '4px 10px', 
-                borderRadius: '100px',
-                background: booking.status === 'confirmed' ? '#e6f4ea' : '#fff3e0',
-                color: booking.status === 'confirmed' ? '#2e7d32' : '#e65100'
-              }}>
-                {booking.status}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
 
-      {!loading && bookings.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#888', padding: '48px' }}>
-          Nessuna prenotazione ancora
-        </p>
-      )}
-    </div>
+            <div className="booking-card-right">
+              <span className={`booking-status ${booking.status}`}>
+                {statusLabel[booking.status] || booking.status}
+              </span>
+              <p className="booking-price">€{booking.total_price}</p>
+              {booking.status === 'pending' && (
+                <div className="booking-actions">
+                  <button className="booking-confirm-btn" onClick={() => handleConfirm(booking.id)}>Conferma</button>
+                  <button className="booking-cancel-btn" onClick={() => handleCancel(booking.id)}>Rifiuta</button>
+                </div>
+              )}
+            </div>
+
+          </div>
+        ))}
+
+        {!loading && bookings.length === 0 && (
+          <p className="bookings-message">Nessuna prenotazione ancora</p>
+        )}
+
+      </div>
+    </>
   )
 }
 

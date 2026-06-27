@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createApartment } from '../../api/apartments'
+import Navbar from '../../components/Navbar/Navbar'
+import iconArrowLeft from '../../assets/icons/arrow-left.svg'
+import StepOne from './StepOne'
+import StepTwo from './StepTwo'
+
 import './AddApartment.css'
 
 function AddApartment() {
   const navigate = useNavigate()
+
+  // STATE ---------------------------------
 
   const [formData, setFormData] = useState({
     name: '',
@@ -14,99 +21,65 @@ function AddApartment() {
     country: '',
   })
 
+  const [currentStep, setCurrentStep] = useState(1)
+  const [propertyId, setPropertyId] = useState(null) // salva l'Id della property creata per aggiungere stanze e img a Step 2
+
+  // HANDLERS ------------------------------
+
+  const isValid = formData.name && formData.city
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const handleAddressSelect = (data) => {
+    setFormData(prev => ({
+      ...prev,
+      address: data.address,
+      city: data.city,
+      country: data.country
+    }))
+  }
+
   const handleSubmit = () => {
     createApartment(formData)
-      .then(() => {
-        alert('Appartamento aggiunto!')
-        navigate('/')
+      .then(data => {
+        setPropertyId(data.id)
+        setCurrentStep(2)
       })
       .catch(err => alert(`Errore: ${err.message}`))
   }
 
-  const isValid = formData.name && formData.city
+  // RENDER -------------------------------
 
   return (
     <div className="add-page">
-
-      <div className="add-navbar">
-        <button className="add-back-btn" onClick={() => navigate('/')}>
-          ← Torna alla lista
-        </button>
-      </div>
+      <Navbar />
 
       <div className="add-content">
-        <h1 className="add-title">Aggiungi appartamento</h1>
-        <p className="add-subtitle">Inserisci i dettagli della tua proprietà</p>
-
-        <div className="add-form">
-
-          <div className="add-field">
-            <label>Nome proprietà</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="es. Garden Apartment"
-            />
-          </div>
-
-          <div className="add-field">
-            <label>Descrizione</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Descrivi la tua proprietà..."
-              rows={4}
-            />
-          </div>
-
-          <div className="add-field">
-            <label>Indirizzo</label>
-            <input
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              placeholder="es. Via Roma 12"
-            />
-          </div>
-
-          <div className="add-row">
-            <div className="add-field">
-              <label>Città</label>
-              <input
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder="es. Roma"
-              />
-            </div>
-            <div className="add-field">
-              <label>Paese</label>
-              <input
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder="es. Italia"
-              />
-            </div>
-          </div>
-
-          <hr className="add-divider" />
-
-          <button
-            className={`add-submit-btn ${isValid ? 'active' : 'disabled'}`}
-            onClick={handleSubmit}
-            disabled={!isValid}
-          >
-            Aggiungi appartamento
-          </button>
-
+        <div className="add-title-row">
+          <img src={iconArrowLeft} alt="torna indietro" className="add-back-icon" onClick={() => navigate('/')} />
+          <h1 className="add-title">Aggiungi appartamento</h1>
         </div>
+
+        {currentStep === 1 && (
+          <StepOne
+            formData={formData}
+            onChange={handleChange}
+            onAddressSelect={handleAddressSelect}
+            onSubmit={handleSubmit}
+            isValid={isValid}
+          />
+        )}
+
+        {currentStep === 2 && (
+          <StepTwo
+            propertyId={propertyId}
+            onComplete={() => navigate('/')}
+            onBack={() => navigate('/')}
+          />
+        )}
+
       </div>
     </div>
   )
