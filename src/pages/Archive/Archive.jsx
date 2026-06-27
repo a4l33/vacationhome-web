@@ -20,9 +20,9 @@ function Archive() {
 
   //  Fetch dati 
   useEffect(() => {
-    getApartments(currentPage, '', searchQuery)
+    getApartments(currentPage, '', searchQuery) // vai a prendere gli appartamenti da Django, anche quando cambi pagina o cerchi qualcosa
       .then(data => {
-        setApartments(data.results)
+        setApartments(data.results) 
         setTotalCount(data.count)
       })
       .catch(err => setError(err.message))
@@ -60,10 +60,10 @@ function Archive() {
 
         <div className="archive-list">
           {apartments.map(apartment => (
-            <ApartmentCard
-              key={apartment.id}
-              apartment={apartment}
-              onClick={() => navigate(`/apartment/${apartment.id}`)}
+            <ApartmentCard 
+              key={apartment.id}                                        // ← prop
+              apartment={apartment}                                     // ← prop
+              onClick={() => navigate(`/apartment/${apartment.id}`)}    // ← prop
             />
           ))}
         </div>

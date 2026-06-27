@@ -22,7 +22,7 @@ function Login() {
       .then(res => res.json())
       .then(data => {
         if (data.token) {
-          localStorage.setItem('token', data.token)
+          localStorage.setItem('token', data.token) // ← qui salvi il il token sul localStorage
           navigate('/')
         } else {
           setError('Credenziali errate')

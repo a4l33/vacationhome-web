@@ -11,8 +11,8 @@ export async function getApartments(page = 1, city = '', name = '') {
     return response.json()
 }
 
-export async function getApartmentById(id) {
-  const response = await fetch(`${BASE_URL}/properties/${id}/`)
+export async function getApartmentById(id) { // ←  async "questa funzione ha un'attesa dentro"
+  const response = await fetch(`${BASE_URL}/properties/${id}/`) // await ← "aspetta qui finché fetch non risponde"
   if (!response.ok) throw new Error('Appartamento non trovato')
     return response.json()
 }

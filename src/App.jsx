@@ -5,6 +5,7 @@ import AddApartment from './pages/AddApartment/AddApartment'
 import Login from './pages/Login/Login'
 import Bookings from './pages/Bookings/Bookings'
 
+{/* protectedroute per evitare che si entri senza aver fatto login */}
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token')
   if (!token) return <Navigate to="/login" replace />
@@ -16,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute><Archive /></ProtectedRoute>} />
+        <Route path="/" element={<ProtectedRoute><Archive /></ProtectedRoute>} /> 
         <Route path="/apartment/:id" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddApartment /></ProtectedRoute>} />
         <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />

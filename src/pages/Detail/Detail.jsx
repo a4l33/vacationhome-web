@@ -82,6 +82,8 @@ function Detail() {
 
       <div className="detail-content">
 
+        {/* ----------- Header ---------------- */}
+
         <div className="detail-header">
           <div className="detail-title-row">
             <img src={iconArrowLeft} alt="torna indietro" className="detail-back-icon" onClick={() => navigate('/')} />
@@ -108,6 +110,8 @@ function Detail() {
           </div>
         </div>
 
+        {/* ---------- Meta --------------------- */}
+
         <div className="detail-meta">
           {editing ? (
             <>
@@ -124,6 +128,8 @@ function Detail() {
           )}
         </div>
 
+        {/* -------------------- Stats ------------------------- */}
+
         <div className="detail-stats">
           <span className="detail-stat">
             <img src={iconHome} alt="" />
@@ -136,6 +142,8 @@ function Detail() {
           </span>
         </div>
 
+        {/* ----------- gallery + lightbox -------------- */}
+
         <div className="detail-gallery">
           {allImages.slice(0, 3).map((img, i) => (
             <div key={i} className="detail-gallery-item" onClick={() => { setLightboxIndex(i); setLightboxOpen(true) }}>
@@ -147,6 +155,16 @@ function Detail() {
           ))}
         </div>
 
+        {lightboxOpen && (
+          <div className="lightbox" onClick={() => setLightboxOpen(false)}>
+            <button className="lightbox-prev" onClick={e => { e.stopPropagation(); setLightboxIndex(i => (i - 1 + allImages.length) % allImages.length) }}>←</button>
+            <img src={allImages[lightboxIndex]} alt="" className="lightbox-img" onClick={e => e.stopPropagation()} />
+            <button className="lightbox-next" onClick={e => { e.stopPropagation(); setLightboxIndex(i => (i + 1) % allImages.length) }}>→</button>
+          </div>
+        )}
+
+        {/* --------------- Descrizione ----------------- */}
+
         {editing ? (
           <textarea className="detail-edit-textarea" name="description" value={editForm.description} onChange={handleEditChange} rows={4} />
         ) : (
@@ -155,6 +173,8 @@ function Detail() {
 
         <hr className="detail-divider" />
 
+        {/* ---------------- Stanze ------------------- */}
+        
         <h2 className="detail-rooms-title">Stanze</h2>
         {apartment.rooms.map(room => (
           <div key={room.id} className="detail-room">
@@ -173,15 +193,6 @@ function Detail() {
         ))}
 
       </div>
-
-      {lightboxOpen && (
-        <div className="lightbox" onClick={() => setLightboxOpen(false)}>
-          <button className="lightbox-prev" onClick={e => { e.stopPropagation(); setLightboxIndex(i => (i - 1 + allImages.length) % allImages.length) }}>←</button>
-          <img src={allImages[lightboxIndex]} alt="" className="lightbox-img" onClick={e => e.stopPropagation()} />
-          <button className="lightbox-next" onClick={e => { e.stopPropagation(); setLightboxIndex(i => (i + 1) % allImages.length) }}>→</button>
-        </div>
-      )}
-
     </div>
   )
 }
