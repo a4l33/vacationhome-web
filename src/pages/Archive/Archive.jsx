@@ -25,12 +25,12 @@ function Archive() {
         setApartments(data.results) 
         setTotalCount(data.count)
       })
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false))
+      .catch(err => setError(err.message)) 
+      .finally(() => setLoading(false)) // che sia riuscito o no il caricamento, SEMPRE smettere di mostrare caricamento...
   }, [currentPage, searchQuery])
 
   //  Handlers 
-  const totalPages = Math.ceil(totalCount / pageSize)
+  const totalPages = Math.ceil(totalCount / pageSize) 
 
   //  Render 
   return (
@@ -61,7 +61,7 @@ function Archive() {
         <div className="archive-list">
           {apartments.map(apartment => (
             <ApartmentCard 
-              key={apartment.id}                                        // ← prop
+              key={apartment.id}                                        // ← prop, ogni card ha un'identità unica
               apartment={apartment}                                     // ← prop
               onClick={() => navigate(`/apartment/${apartment.id}`)}    // ← prop
             />

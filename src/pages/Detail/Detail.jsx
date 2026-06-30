@@ -27,7 +27,7 @@ function Detail() {
     getApartmentById(id)
       .then(data => {
         setApartment(data)
-        const images = data.rooms.flatMap(r => r.images.map(img => img.image))
+        const images = data.rooms.flatMap(r => r.images.map(img => img.image)) // per ogni immagine img, prendi solo il campo image (l'URL)
         setAllImages(images)
       })
       .catch(err => setError(err.message))
@@ -44,8 +44,8 @@ function Detail() {
   }
 
   const handleEdit = () => {
-    setEditForm({
-      name: apartment.name,
+    setEditForm({                 
+      name: apartment.name, // ci sono già tuttu i precedenti dati scritti invece di averli vuoti
       description: apartment.description,
       address: apartment.address,
       city: apartment.city,
@@ -82,18 +82,21 @@ function Detail() {
 
       <div className="detail-content">
 
-        {/* ----------- Header ---------------- */}
 
         <div className="detail-header">
           <div className="detail-title-row">
             <img src={iconArrowLeft} alt="torna indietro" className="detail-back-icon" onClick={() => navigate('/')} />
+
+        {/* -------- Titolo + bottoni modifica/elimina ------------ */}
+
             {editing ? (
               <input className="detail-edit-input" name="name" value={editForm.name} onChange={handleEditChange} />
             ) : (
               <h1 className="detail-title">{apartment.name}</h1>
             )}
           </div>
-          <div className="detail-header-actions">
+
+          <div className="detail-header-actions">    
             {editing ? (
               <>
                 <button className="detail-save-btn" onClick={handleSave}>Salva</button>
@@ -110,7 +113,7 @@ function Detail() {
           </div>
         </div>
 
-        {/* ---------- Meta --------------------- */}
+        {/* ------- Città, paese, indirizzo (editabili in modalità modifica) ------ */}
 
         <div className="detail-meta">
           {editing ? (
@@ -128,7 +131,7 @@ function Detail() {
           )}
         </div>
 
-        {/* -------------------- Stats ------------------------- */}
+        {/* ------------ Numero stanze e max ospiti ------------ */}
 
         <div className="detail-stats">
           <span className="detail-stat">
@@ -163,7 +166,7 @@ function Detail() {
           </div>
         )}
 
-        {/* --------------- Descrizione ----------------- */}
+        {/* --------------- Descrizione editabile ----------------- */}
 
         {editing ? (
           <textarea className="detail-edit-textarea" name="description" value={editForm.description} onChange={handleEditChange} rows={4} />
@@ -173,7 +176,7 @@ function Detail() {
 
         <hr className="detail-divider" />
 
-        {/* ---------------- Stanze ------------------- */}
+        {/* -------------- Stanze + prezzo ----------------- */}
         
         <h2 className="detail-rooms-title">Stanze</h2>
         {apartment.rooms.map(room => (

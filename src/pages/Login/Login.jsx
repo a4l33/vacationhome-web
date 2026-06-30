@@ -19,7 +19,7 @@ function Login() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     })
-      .then(res => res.json())
+      .then(res => res.json())  // leggi questo testo e trasformalo in un oggetto JavaScript
       .then(data => {
         if (data.token) {
           localStorage.setItem('token', data.token) // ← qui salvi il il token sul localStorage
