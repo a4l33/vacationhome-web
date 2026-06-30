@@ -40,7 +40,7 @@ function Login() {
     <div className="login-page">
       <div className="login-card">
         <img src={logo} alt="ParaDay" className="login-logo" />
-        <h1 className="login-title">ParaDay</h1>
+        <h1 className="login-title">QuietHome</h1>
         <p className="login-subtitle">Accedi alla tua dashboard</p>
 
         <div className="login-form">

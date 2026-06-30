@@ -7,6 +7,7 @@ import iconHome from '../../assets/icons/home.svg'
 import iconUsers from '../../assets/icons/users.svg'
 import iconTrash from '../../assets/icons/trash.svg'
 import iconArrowLeft from '../../assets/icons/arrow-left.svg'
+import iconStar from '../../assets/icons/star.svg'
 import './Detail.css'
 import '../AddApartment/Steps.css'
 
@@ -177,6 +178,15 @@ useEffect(() => {
         {/* ------------ Numero stanze e max ospiti ------------ */}
 
         <div className="detail-stats">
+          {apartment.average_rating !== null && (
+            <>
+              <span className="detail-stat">
+                <img src={iconStar} alt="" />
+                {apartment.average_rating}
+              </span>
+              <span>·</span>
+            </>
+          )}
           <span className="detail-stat">
             <img src={iconHome} alt="" />
             {apartment.rooms.length} stanze
