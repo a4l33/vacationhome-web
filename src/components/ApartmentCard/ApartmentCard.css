@@ -29,12 +29,17 @@
   align-items: center;
   gap: 4px;
   padding: 6px 10px;
-  border-radius: var(--radius-full);
+  border-radius: 100px;
   background: rgba(255,255,255,0.88);
   backdrop-filter: blur(10px);
   font-size: 13px;
   font-weight: 600;
-  color: var(--text);
+  color: #111;
+}
+
+.card-rating img {
+  width: 12px;
+  height: 12px;
 }
 
 .card-delete {

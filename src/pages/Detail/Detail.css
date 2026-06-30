@@ -352,3 +352,29 @@
   box-sizing: border-box;
   margin-bottom: 32px;
 }
+
+.detail-add-room-btn {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-lg);
+  background: none;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.detail-add-room-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.detail-room-upload {
+  margin-top: 10px;
+}
+
+.detail-room-upload input {
+  font-size: 13px;
+}

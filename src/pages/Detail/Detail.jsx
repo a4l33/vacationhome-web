@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getApartmentById, deleteApartment, updateApartment } from '../../api/apartments'
+import { createRoom, uploadRoomImage } from '../../api/apartments'
 import Navbar from '../../components/Navbar/Navbar'
 import iconHome from '../../assets/icons/home.svg'
 import iconUsers from '../../assets/icons/users.svg'
 import iconTrash from '../../assets/icons/trash.svg'
 import iconArrowLeft from '../../assets/icons/arrow-left.svg'
 import './Detail.css'
+import '../AddApartment/Steps.css'
 
 function Detail() {
   const { id } = useParams()
@@ -21,6 +23,31 @@ function Detail() {
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [editing, setEditing] = useState(false)
   const [editForm, setEditForm] = useState({})
+  const [addingRoom, setAddingRoom] = useState(false)
+  const [roomForm, setRoomForm] = useState({
+    name: '',
+    description: 'N/A',
+    price_per_night: '',
+    max_guests: '',
+    num_beds: '',
+    num_bathrooms: '',
+  })
+
+  // ─── Fetch dati ──────────────────────────────────────────
+  const reloadApartment = () => {
+    return getApartmentById(id).then(data => {
+      setApartment(data)
+      const images = data.rooms.flatMap(r => r.images.map(img => img.image))
+      setAllImages(images)
+      return data
+    })
+  }
+
+useEffect(() => {
+  reloadApartment()
+    .catch(err => setError(err.message))
+    .finally(() => setLoading(false))
+}, [id])
 
   // ─── Fetch dati ──────────────────────────────────────────
   useEffect(() => {
@@ -55,21 +82,37 @@ function Detail() {
   }
 
   const handleSave = () => {
-    updateApartment(id, editForm)
-      .then(() => {
-        return getApartmentById(id)
-      })
-      .then(data => {
-        setApartment(data)
-        setEditing(false)
-      })
-      .catch(err => alert(`Errore: ${err.message}`))
-  }
+  updateApartment(id, editForm)
+    .then(() => reloadApartment())
+    .then(() => setEditing(false))
+    .catch(err => alert(`Errore: ${err.message}`))
+}
 
   const handleEditChange = (e) => {
     setEditForm({ ...editForm, [e.target.name]: e.target.value })
   }
 
+  const handleRoomChange = (e) => {
+    const value = e.target.type === 'number' ? Number(e.target.value) : e.target.value
+    setRoomForm({ ...roomForm, [e.target.name]: value })
+  }
+
+  const handleAddRoom = () => {
+    createRoom(id, roomForm)
+      .then(() => reloadApartment())
+      .then(() => {
+        setRoomForm({ name: '', description: 'N/A', price_per_night: '', max_guests: '', num_beds: '', num_bathrooms: '' })
+        setAddingRoom(false)
+      })
+      .catch(err => alert(`Errore: ${err.message}`))
+  }
+
+  const handleUploadImage = (roomId, file) => {
+    uploadRoomImage(id, roomId, file)
+      .then(() => reloadApartment())
+      .catch(err => alert(`Errore immagine: ${err.message}`))
+  }
+  
   // ─── Loading / Error ─────────────────────────────────────
   if (loading) return <><Navbar /><p className="detail-message">Caricamento...</p></>
   if (error) return <><Navbar /><p className="detail-message error">{error}</p></>
@@ -192,8 +235,69 @@ function Detail() {
                 €{room.price_per_night}<span>/notte</span>
               </div>
             </div>
+            {editing && (
+              <div className="detail-room-upload">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={e => { if (e.target.files[0]) handleUploadImage(room.id, e.target.files[0]) }}
+                />
+              </div>
+            )}
           </div>
         ))}
+
+        {/* ─── Aggiungi nuova stanza (solo in modifica) ──────────── */}
+        {editing && (
+          addingRoom ? (
+            <div className="add-section">
+              <p className="add-section-title">➕ Nuova stanza</p>
+
+              <div className="add-field">
+                <label>Nome stanza</label>
+                <input name="name" value={roomForm.name} onChange={handleRoomChange} placeholder="es. Camera doppia" />
+              </div>
+
+              <div className="add-row">
+                <div className="add-field">
+                  <label>Prezzo / notte (€)</label>
+                  <input name="price_per_night" type="number" value={roomForm.price_per_night} onChange={handleRoomChange} placeholder="es. 120" />
+                </div>
+                <div className="add-field">
+                  <label>Max ospiti</label>
+                  <input name="max_guests" type="number" value={roomForm.max_guests} onChange={handleRoomChange} placeholder="es. 2" />
+                </div>
+              </div>
+
+              <div className="add-row">
+                <div className="add-field">
+                  <label>Letti</label>
+                  <input name="num_beds" type="number" value={roomForm.num_beds} onChange={handleRoomChange} placeholder="es. 1" />
+                </div>
+                <div className="add-field">
+                  <label>Bagni</label>
+                  <input name="num_bathrooms" type="number" value={roomForm.num_bathrooms} onChange={handleRoomChange} placeholder="es. 1" />
+                </div>
+              </div>
+
+              <div className="step-submit-row">
+                <button
+                  className={`add-submit-btn ${roomForm.name && roomForm.price_per_night !== '' && roomForm.max_guests !== '' ? 'active' : 'disabled'}`}
+                  onClick={handleAddRoom}
+                >
+                  Salva stanza
+                </button>
+                <button className="add-submit-btn cancel" onClick={() => setAddingRoom(false)}>
+                  Annulla
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button className="detail-add-room-btn" onClick={() => setAddingRoom(true)}>
+              + Aggiungi stanza
+            </button>
+          )
+        )}
 
       </div>
     </div>

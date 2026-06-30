@@ -85,3 +85,29 @@
 .login-btn:hover {
   opacity: 0.9;
 }
+
+.login-back {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.login-back:hover {
+  color: var(--accent);
+}
+
+.login-register {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+
+.login-forgot {
+  text-align: right;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+}

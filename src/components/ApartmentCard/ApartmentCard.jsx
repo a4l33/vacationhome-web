@@ -1,6 +1,7 @@
 import { deleteApartment } from '../../api/apartments'
 import iconTrash from '../../assets/icons/trash.svg'
 import './ApartmentCard.css'
+import iconStar from '../../assets/icons/star.svg'
 
 function ApartmentCard({ apartment, onClick, onDelete }) {
 
@@ -21,9 +22,12 @@ function ApartmentCard({ apartment, onClick, onDelete }) {
         className="card-image"
         style={{ backgroundImage: `url(${apartment.rooms?.[0]?.images?.[0]?.image || ''})` }}
       >
+        {apartment.average_rating !== null && (
         <div className="card-rating">
-          ★ {apartment.rating || '4.8'}
+          <img src={iconStar} alt="" /> {apartment.average_rating}
         </div>
+        )}
+        
         {onDelete && (
           <button className="card-delete" onClick={handleDelete}>
             <img src={iconTrash} alt="elimina" />

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ApartmentCard from '../../components/ApartmentCard/ApartmentCard'
 import { getApartments } from '../../api/apartments'
 import Navbar from '../../components/Navbar/Navbar'
+import ApartmentCard from '../../components/ApartmentCard/ApartmentCard'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import './Archive.css'
 
@@ -20,7 +20,7 @@ function Archive() {
 
   //  Fetch dati 
   useEffect(() => {
-    getApartments(currentPage, '', searchQuery) // vai a prendere gli appartamenti da Django, anche quando cambi pagina o cerchi qualcosa
+    getApartments(currentPage, '', searchQuery, true) // vai a prendere gli appartamenti da Django, anche quando cambi pagina o cerchi qualcosa
       .then(data => {
         setApartments(data.results) 
         setTotalCount(data.count)

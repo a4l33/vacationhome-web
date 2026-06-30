@@ -1,18 +1,25 @@
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { getCurrentUser } from '../../api/users'
 import logo from '../../assets/logo.svg'
 import './Navbar.css'
 
 function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [currentUser, setCurrentUser] = useState(null)
 
-  //  Handlers 
+  useEffect(() => {
+    getCurrentUser().then(setCurrentUser).catch(() => {})
+  }, [])
+
+  // ─── Handlers ───────────────────────────────────────────
   const handleLogout = () => {
     localStorage.removeItem('token')
     navigate('/login')
   }
 
-  // Active state 
+  // ─── Active state ────────────────────────────────────────
   const isApartmentsActive =
     location.pathname === '/' ||
     location.pathname.startsWith('/apartment') ||
@@ -20,10 +27,13 @@ function Navbar() {
 
   const isBookingsActive = location.pathname === '/bookings'
 
-  // Render 
+  // ─── Render ──────────────────────────────────────────────
   return (
     <nav className="navbar">
-      <img src={logo} alt="VacationHome" className="navbar-logo" onClick={() => navigate('/')} />
+      <div className="navbar-left">
+        <img src={logo} alt="VacationHome" className="navbar-logo" onClick={() => navigate('/')} />
+        {currentUser && <span className="navbar-greeting">Ciao, {currentUser.username}!</span>}
+      </div>
 
       <div className="navbar-links">
         <button className={`navbar-link ${isApartmentsActive ? 'active' : ''}`} onClick={() => navigate('/')}>

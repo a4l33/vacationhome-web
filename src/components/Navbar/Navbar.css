@@ -11,6 +11,18 @@
   z-index: 100;
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-greeting {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 /* ─── Logo ──────────────────────────────────────────────── */
 .navbar-logo {
   height: 40px;

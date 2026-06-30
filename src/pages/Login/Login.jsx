@@ -19,10 +19,10 @@ function Login() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     })
-      .then(res => res.json())  // leggi questo testo e trasformalo in un oggetto JavaScript
+      .then(res => res.json()) // leggi il testo della risposta e trasformalo in un oggetto JavaScript
       .then(data => {
         if (data.token) {
-          localStorage.setItem('token', data.token) // ← qui salvi il il token sul localStorage
+          localStorage.setItem('token', data.token) // salva il token nel localStorage
           navigate('/')
         } else {
           setError('Credenziali errate')
@@ -60,10 +60,18 @@ function Login() {
             onChange={e => setPassword(e.target.value)}
             onKeyDown={handleKeyDown}
           />
+
+          <a href="/forgot-password" className="login-forgot">Password dimenticata</a>
+
           {error && <p className="login-error">{error}</p>}
+
           <button className="login-btn" onClick={handleLogin}>
             Accedi
           </button>
+
+          <p className="login-register">
+            Non hai un account? <a href="/register">Registrati</a>
+          </p>
         </div>
       </div>
     </div>

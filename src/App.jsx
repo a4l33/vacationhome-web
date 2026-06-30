@@ -4,6 +4,9 @@ import Detail from './pages/Detail/Detail'
 import AddApartment from './pages/AddApartment/AddApartment'
 import Login from './pages/Login/Login'
 import Bookings from './pages/Bookings/Bookings'
+import Register from './pages/Register/Register'
+import VerifyOtp from './pages/VerifyOtp/VerifyOtp'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 
 {/* protectedroute per evitare che si entri senza aver fatto login */}
 function ProtectedRoute({ children }) {
@@ -21,6 +24,9 @@ function App() {
         <Route path="/apartment/:id" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddApartment /></ProtectedRoute>} />
         <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   )

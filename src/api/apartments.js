@@ -2,13 +2,19 @@ import { BASE_URL } from './config'
 
 // ------- GET --------
 
-export async function getApartments(page = 1, city = '', name = '') {
+export async function getApartments(page = 1, city = '', name = '', asHost = false) {
+  const token = localStorage.getItem('token')
   let url = `${BASE_URL}/properties/?page=${page}`
   if (city) url += `&city=${city}`
   if (name) url += `&name=${name}`
-  const response = await fetch(url)
+  if (asHost) url += `&as_host=true`
+
+  const headers = {}
+  if (token) headers['Authorization'] = `Token ${token}`
+
+  const response = await fetch(url, { headers })
   if (!response.ok) throw new Error('Errore nel caricamento degli appartamenti')
-    return response.json()
+  return response.json()
 }
 
 export async function getApartmentById(id) { // ←  async "questa funzione ha un'attesa dentro"
