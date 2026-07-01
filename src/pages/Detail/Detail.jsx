@@ -35,7 +35,7 @@ function Detail() {
   })
 
   // ─── Fetch dati ──────────────────────────────────────────
-  const reloadApartment = () => {
+  const reloadApartment = () => {     // per ricaricare i dati aggiornati degli appartamenti 
     return getApartmentById(id).then(data => {
       setApartment(data)
       const images = data.rooms.flatMap(r => r.images.map(img => img.image))

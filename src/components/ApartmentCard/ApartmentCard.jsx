@@ -1,21 +1,7 @@
-import { deleteApartment } from '../../api/apartments'
-import iconTrash from '../../assets/icons/trash.svg'
 import './ApartmentCard.css'
 import iconStar from '../../assets/icons/star.svg'
 
-function ApartmentCard({ apartment, onClick, onDelete }) {
-
-  // Handlers 
-  const handleDelete = (e) => {
-    e.stopPropagation()
-    if (window.confirm(`Eliminare "${apartment.name}"?`)) {
-      deleteApartment(apartment.id)
-        .then(() => onDelete(apartment.id))
-        .catch(err => alert(`Errore: ${err.message}`))
-    }
-  }
-
-  // Render 
+function ApartmentCard({ apartment, onClick }) {
   return (
     <div className="card" onClick={onClick}>
       <div
@@ -27,12 +13,6 @@ function ApartmentCard({ apartment, onClick, onDelete }) {
           <img src={iconStar} alt="" /> {apartment.average_rating}
         </div>
         )}
-        
-        {onDelete && (
-          <button className="card-delete" onClick={handleDelete}>
-            <img src={iconTrash} alt="elimina" />
-          </button>
-        )}
       </div>
 
       <div className="card-body">
@@ -42,7 +22,7 @@ function ApartmentCard({ apartment, onClick, onDelete }) {
         </p>
         <div className="card-footer">
           <span className="card-price">
-            da <strong>€{apartment.price_per_night}</strong> / notte
+            da <strong>€{Math.min(...apartment.rooms.map(r => r.price_per_night))}</strong> / notte 
           </span>
           <span className="card-badge">Disponibile</span>
         </div>
